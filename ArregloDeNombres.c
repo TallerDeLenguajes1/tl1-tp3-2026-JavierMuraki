@@ -28,26 +28,39 @@ int main() {
     // Ej 2 / Parte 1 / Apartado 2
     MostrarPersonas(V);
 
-    // Ej 2 / Parte 2 / Apartado 1
-    int id;
+    // Ej 2 / Parte 3
+    int seleccion;
 
+    printf("\nQue modo de busqueda quisieras usar?");
+    printf("\n1 - Busqueda por ID");
+    printf("\n2 - Busqueda por Palabra\n");
     fflush(stdin); // Limpia el buffer del input de la consola
-    printf("\nIngrese una ID para buscar (1 - %d): ", CantNombres);
-    scanf("%d", &id);
+    scanf("%d", &seleccion);
 
-    BuscaNombrePorId(V, id);
+    if (seleccion == 1) {
+        // Ej 2 / Parte 2 / Apartado 1
+        int id;
 
-    // Ej 2 / Parte 2 / Apartado 2
-    printf("\nIngrese nombre a buscar: ");
-    fflush(stdin); // Limpia el buffer del input de la consola
-    gets(Buff);
+        printf("\nIngrese una ID para buscar (1 - %d): ", CantNombres);
+        fflush(stdin); // Limpia el buffer del input de la consola
+        scanf("%d", &id);
 
-    int resultado = BuscaNombrePorPalabra(V, Buff);
+        BuscaNombrePorId(V, id);
+    } else if (seleccion == 2) {
+        // Ej 2 / Parte 2 / Apartado 2
+        printf("\nIngrese nombre a buscar: ");
+        fflush(stdin); // Limpia el buffer del input de la consola
+        gets(Buff);
 
-    if (resultado != -1) {
-        printf("Se encontro el nombre: %s\n", V[resultado]);
+        int resultado = BuscaNombrePorPalabra(V, Buff);
+
+        if (resultado != -1) {
+            printf("Se encontro el nombre: %s\n", V[resultado]);
+        } else {
+            printf("No se encontro el valor buscado\n");
+        }
     } else {
-        printf("No se encontro el valor buscado\n");
+        printf("\nOpcion invalida");
     }
 
     // Liberar memoria
