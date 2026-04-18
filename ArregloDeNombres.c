@@ -7,15 +7,18 @@
 // Recibe el vector para mostrar todos los nombres alamcenados
 void MostrarPersonas(char *Vector[]);
 
+// Busca el nombre mediante ID
+void BuscaNombrePorId(char *Vector[], int id);
+
 // Buscar nombre por string
-int BuscarNombre(char *Vector[], char str[]);
+int BuscaNombrePorPalabra(char *Vector[], char str[]);
 
 int main() {
     char *Buff = (char *) malloc(sizeof(char) * 128); // Variable auxiliar
     char *V[CantNombres];
     int i;
 
-    printf("Ingrese %d nombres:\n", CantNombres);
+    printf("\nIngrese %d nombres:\n", CantNombres);
     for (i = 0; i < CantNombres; i++) {
         gets(Buff);
         V[i] = (char *) malloc(sizeof(char) * (strlen(Buff) + 1));
@@ -25,11 +28,21 @@ int main() {
     // Ej 2 / Parte 1 / Apartado 2
     MostrarPersonas(V);
 
+    // Ej 2 / Parte 2 / Apartado 1
+    int id;
+
+    fflush(stdin); // Limpia el buffer del input de la consola
+    printf("\nIngrese una ID para buscar (1 - %d): ", CantNombres);
+    scanf("%d", &id);
+
+    BuscaNombrePorId(V, id);
+
     // Ej 2 / Parte 2 / Apartado 2
     printf("\nIngrese nombre a buscar: ");
+    fflush(stdin); // Limpia el buffer del input de la consola
     gets(Buff);
 
-    int resultado = BuscarNombre(V, Buff);
+    int resultado = BuscaNombrePorPalabra(V, Buff);
 
     if (resultado != -1) {
         printf("Se encontro el nombre: %s\n", V[resultado]);
@@ -55,7 +68,15 @@ void MostrarPersonas(char *Vector[]) {
     }
 }
 
-int BuscarNombre(char *Vector[], char str[]) {
+void BuscaNombrePorId(char *Vector[], int id) {
+    if (id >= 1 && id <= CantNombres ) {
+        printf("Nombre encontrado: %s\n", Vector[id - 1]);
+    } else {
+        printf("No se encontro el valor buscado\n");
+    }
+}
+
+int BuscaNombrePorPalabra(char *Vector[], char str[]) {
     int i;
 
     for (i = 0; i < CantNombres; i++) {
