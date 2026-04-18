@@ -29,7 +29,7 @@ int main() {
     int id;
 
     fflush(stdin); // Limpia el buffer del input de la consola
-    printf("\nIngrese una ID para buscar (0 - %d): ", CantNombres - 1);
+    printf("\nIngrese una ID para buscar (1 - %d): ", CantNombres);
     scanf("%d", &id);
 
     BuscarNombre(V, id);
@@ -48,13 +48,13 @@ void MostrarPersonas(char *Vector[]) {
 
     printf("\nNombres almacenados:\n");
     for (i = 0; i < CantNombres; i++) {
-        printf("%d - %s\n", i, Vector[i]);
+        printf("%d - %s\n", i + 1, Vector[i]);
     }
 }
 
 void BuscarNombre(char *Vector[], int id) {
-    if (id >= 0 && id <= CantNombres - 1) {
-        printf("Nombre encontrado: %s\n", Vector[id]);
+    if (id >= 1 && id <= CantNombres ) {
+        printf("Nombre encontrado: %s\n", Vector[id - 1]);
     } else {
         printf("No se encontro el valor buscado\n");
     }
