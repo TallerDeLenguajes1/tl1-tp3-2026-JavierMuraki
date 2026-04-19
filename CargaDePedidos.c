@@ -20,10 +20,14 @@ struct Cliente {
     struct Producto *Productos; // El tamaño de este arreglo depende de la variable
 };
 
+// Ejercicio 3 / Apartado IV
+float CalcularCostoTotal(struct Producto P) {
+    return (float) P.Cantidad * P.PrecioUnitario;
+}
+
 int main() {
+    int i, j;
     int CantidadCleintes;
-    struct Cliente *Clientes;
-    char *Buffer = (char *) malloc(sizeof(char) * 128);
     char *TiposProductos[] = {"Galletas", "Snack", "Cigarrillos", "Caramelos", "Bebidas"};
 
     printf("Cuantos clientes (1 - %d): ", MAX_CLIENTES);
@@ -31,9 +35,9 @@ int main() {
     scanf("%d", &CantidadCleintes);
 
     if (CantidadCleintes >= 1 && CantidadCleintes <= MAX_CLIENTES) {
-        Clientes = (struct Cliente *) malloc(sizeof(struct Cliente) * CantidadCleintes);
+        struct Cliente *Clientes = (struct Cliente *) malloc(sizeof(struct Cliente) * CantidadCleintes);
+        char *Buffer = (char *) malloc(sizeof(char) * 128);
 
-        int i;
         for (i = 0; i < CantidadCleintes; i++) {
             Clientes[i].ClienteID = i + 1;
 
@@ -44,23 +48,46 @@ int main() {
             Clientes[i].NombreCliente = (char *) malloc(sizeof(char) * (strlen(Buffer) + 1));
             strcpy(Clientes[i].NombreCliente, Buffer);
 
-            Clientes[i].CantidadProductosAPedir = rand() % 5 + 1;
+            Clientes[i].CantidadProductosAPedir = rand() % 10 + 1;
             Clientes[i].Productos = (struct Producto *) malloc(sizeof(struct Producto) * Clientes[i].CantidadProductosAPedir);
 
-            int j; // Carga de productos
-            for (j = 0; j < Clientes[i].CantidadProductosAPedir; j++) {
-                struct Producto P = Clientes[i].Productos[j];
-                P.ProductoID = j + 1;
-                P.Cantidad = rand() % 10 + 1;
-                P.TipoProducto = TiposProductos[rand() % 5];
-                P.PrecioUnitario = 10 + rand() % (100 - 10 + 1); // MIN + rand() % (MAX - MIN + 1)
+            for (j = 0; j < Clientes[i].CantidadProductosAPedir; j++) { // Carga de productos
+                struct Producto *P = &(Clientes[i].Productos[j]);
+                P->ProductoID = j + 1;
+                P->Cantidad = rand() % 10 + 1;
+                P->TipoProducto = TiposProductos[rand() % 5];
+                P->PrecioUnitario = 10 + rand() % (100 - 10 + 1); // MIN + rand() % (MAX - MIN + 1)
 
                 printf("- Producto cargado N.%d\n", j + 1);
-                printf("- Cantidad: %d\n", P.Cantidad);
-                printf("- Tipo: %s\n", P.TipoProducto);
-                printf("- Precio Unitario: $%.2f\n\n", P.PrecioUnitario);
+                printf("- Cantidad: %d\n", P->Cantidad);
+                printf("- Tipo: %s\n", P->TipoProducto);
+                printf("- Precio Unitario: $%.2f\n\n", P->PrecioUnitario);
             }
         }
+
+
+        // Ejercicio 3 / Apartado V
+        printf("\n\n----------------------------------------------\n");
+        for (i = 0; i < CantidadCleintes; i++) {
+            float TotalPagar = 0;
+
+            printf("- ID del Cliente: %d\n", Clientes[i].ClienteID);
+            printf("- Nombre: %s\n", Clientes[i].NombreCliente);
+            printf("- Productos pedidos: %d\n", Clientes[i].CantidadProductosAPedir);
+            printf("- Prodctos:\n");
+            for (j = 0; j < Clientes[i].CantidadProductosAPedir; j++) {
+                struct Producto P = Clientes[i].Productos[j];
+                printf("    - Producto N.%d\n", j + 1);
+                printf("    - Cantidad: %d\n", P.Cantidad);
+                printf("    - Tipo: %s\n", P.TipoProducto);
+                printf("    - Precio Unitario: $%.2f\n\n", P.PrecioUnitario);
+                TotalPagar += CalcularCostoTotal(P);
+            }
+
+            printf("- Total a pagar: $%.2f\n", TotalPagar);
+            printf("----------------------------------------------\n");
+        }
+
 
         // Liberar Memoria
         for (i = 0; i < CantidadCleintes; i++) {
