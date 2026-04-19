@@ -29,6 +29,7 @@ int main() {
     int i, j;
     int CantidadCleintes;
     char *TiposProductos[] = {"Galletas", "Snack", "Cigarrillos", "Caramelos", "Bebidas"};
+    srand(time(NULL));
 
     printf("Cuantos clientes (1 - %d): ", MAX_CLIENTES);
     fflush(stdin);
